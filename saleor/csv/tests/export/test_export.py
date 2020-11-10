@@ -365,9 +365,7 @@ def test_append_to_file_for_xlsx(user_export_file, tmpdir, media_root):
     headers = [sheet_obj.cell(row=1, column=i).value for i in range(1, max_col + 1)]
     data = []
     for i in range(2, max_row + 1):
-        row = []
-        for j in range(1, max_col + 1):
-            row.append(sheet_obj.cell(row=i, column=j).value)
+        row = [sheet_obj.cell(row=i, column=j).value for j in range(1, max_col + 1)]
         data.append(row)
 
     assert headers == expected_headers
@@ -467,10 +465,7 @@ def test_export_products_in_batches_for_xlsx(
     # then
     expected_data = []
     for product in qs.order_by("pk"):
-        product_data = []
-        product_data.append(product.pk)
-        product_data.append(product.name)
-
+        product_data = [product.pk, product.name]
         for variant in product.variants.all():
             product_data.append(variant.sku)
             expected_data.append(product_data)
@@ -483,9 +478,7 @@ def test_export_products_in_batches_for_xlsx(
     headers = [sheet_obj.cell(row=1, column=i).value for i in range(1, max_col + 1)]
     data = []
     for i in range(2, max_row + 1):
-        row = []
-        for j in range(1, max_col + 1):
-            row.append(sheet_obj.cell(row=i, column=j).value)
+        row = [sheet_obj.cell(row=i, column=j).value for j in range(1, max_col + 1)]
         data.append(row)
 
     assert headers == expected_headers

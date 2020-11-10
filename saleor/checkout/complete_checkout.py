@@ -116,8 +116,8 @@ def _process_user_data_for_order(checkout: Checkout):
 def _validate_gift_cards(checkout: Checkout):
     """Check if all gift cards assigned to checkout are available."""
     if (
-        not checkout.gift_cards.count()
-        == checkout.gift_cards.active(date=date.today()).count()
+        checkout.gift_cards.count()
+        != checkout.gift_cards.active(date=date.today()).count()
     ):
         msg = "Gift card has expired. Order placement cancelled."
         raise NotApplicable(msg)
@@ -157,7 +157,7 @@ def _create_line_for_order(checkout_line: "CheckoutLine", discounts) -> OrderLin
     if not isinstance(unit_price, Decimal) and unit_price.gross:
         tax_rate = unit_price.tax / unit_price.net
 
-    line = OrderLine(
+    return OrderLine(
         product_name=product_name,
         variant_name=variant_name,
         translated_product_name=translated_product_name,
@@ -169,8 +169,6 @@ def _create_line_for_order(checkout_line: "CheckoutLine", discounts) -> OrderLin
         unit_price=unit_price,  # type: ignore
         tax_rate=tax_rate,
     )
-
-    return line
 
 
 def _prepare_order_data(

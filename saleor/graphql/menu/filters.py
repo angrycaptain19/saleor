@@ -9,8 +9,7 @@ from ..utils.filters import filter_by_query_param
 
 def filter_menu_search(qs, _, value):
     menu_fields = ["name", "slug"]
-    qs = filter_by_query_param(qs, value, menu_fields)
-    return qs
+    return filter_by_query_param(qs, value, menu_fields)
 
 
 def filter_menu_slug(qs, _, value):
@@ -19,8 +18,7 @@ def filter_menu_slug(qs, _, value):
 
 def filter_menu_item_search(qs, _, value):
     menu_item_fields = ["name"]
-    qs = filter_by_query_param(qs, value, menu_item_fields)
-    return qs
+    return filter_by_query_param(qs, value, menu_item_fields)
 
 
 class MenuFilter(django_filters.FilterSet):

@@ -179,11 +179,7 @@ def get_out_of_scope_permissions(
     requestor: Union["User", "App"], permissions: List[str]
 ) -> List[str]:
     """Return permissions that the requestor hasn't got."""
-    missing_permissions = []
-    for perm in permissions:
-        if not requestor.has_perm(perm):
-            missing_permissions.append(perm)
-    return missing_permissions
+    return [perm for perm in permissions if not requestor.has_perm(perm)]
 
 
 def get_out_of_scope_users(root_user: "User", users: List["User"]):
@@ -376,7 +372,6 @@ def get_group_to_permissions_and_users_mapping():
             },
         }
     """
-    mapping = {}
     groups_data = (
         Group.objects.all()
         .annotate(
@@ -393,13 +388,10 @@ def get_group_to_permissions_and_users_mapping():
         .values("pk", "perm_codenames", "users")
     )
 
-    for data in groups_data:
-        mapping[data["pk"]] = {
+    return {data["pk"]: {
             "permissions": set(data["perm_codenames"]),
             "users": set(data["users"]),
-        }
-
-    return mapping
+        } for data in groups_data}
 
 
 def get_users_and_look_for_permissions_in_groups_with_manage_staff(
@@ -442,10 +434,10 @@ def look_for_permission_in_users_with_manage_staff(
 
     """
     for data in groups_data.values():
-        permissions = data["permissions"]
         users = data["users"]
         common_users = users_to_check & users
         if common_users:
+            permissions = data["permissions"]
             common_permissions = permissions_to_find & permissions
             # remove found permission from set
             permissions_to_find.difference_update(common_permissions)

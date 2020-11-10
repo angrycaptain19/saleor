@@ -215,10 +215,12 @@ class BaseMutation(graphene.Mutation):
             if hasattr(cls._meta, "exclude"):
                 # Ignore validation errors for fields that are specified as
                 # excluded.
-                new_error_dict = {}
-                for field, errors in error.error_dict.items():
-                    if field not in cls._meta.exclude:
-                        new_error_dict[field] = errors
+                new_error_dict = {
+                    field: errors
+                    for field, errors in error.error_dict.items()
+                    if field not in cls._meta.exclude
+                }
+
                 error.error_dict = new_error_dict
 
             if cls._meta.errors_mapping:

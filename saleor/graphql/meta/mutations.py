@@ -56,7 +56,7 @@ class BaseMetadataMutation(BaseMutation):
     @classmethod
     def validate_metadata_keys(cls, metadata_list: List[dict]):
         # raise an error when any of the key is empty
-        if not all([data["key"].strip() for data in metadata_list]):
+        if not all(data["key"].strip() for data in metadata_list):
             raise ValidationError(
                 {
                     "input": ValidationError(

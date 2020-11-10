@@ -21,11 +21,12 @@ def test_get_products_data(product, product_with_image, collection, image):
     VariantImage.objects.create(variant=variant, image=product.images.first())
 
     products = Product.objects.all()
-    export_fields = set(
+    export_fields = {
         value
         for mapping in ProductExportFields.HEADERS_TO_FIELDS_MAPPING.values()
         for value in mapping.values()
-    )
+    }
+
     warehouse_ids = [str(warehouse.pk) for warehouse in Warehouse.objects.all()]
     attribute_ids = [str(attr.pk) for attr in Attribute.objects.all()]
 

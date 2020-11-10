@@ -23,8 +23,7 @@ PERMISSIONS_FIELD = "permissions"
 
 def jwt_base_payload(exp_delta: timedelta) -> Dict[str, Any]:
     utc_now = datetime.utcnow()
-    payload = {"iat": utc_now, "exp": utc_now + exp_delta}
-    return payload
+    return {"iat": utc_now, "exp": utc_now + exp_delta}
 
 
 def jwt_user_payload(

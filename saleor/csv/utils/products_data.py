@@ -104,7 +104,7 @@ def get_product_export_fields_and_headers(
         export_fields.append(lookup_field)
         file_headers.append(field)
         # if price is exported, currency is needed too
-        if field == "variant price" or field == "cost price":
+        if field in ["variant price", "cost price"]:
             lookup_field = fields_mapping["variant currency"]
             if lookup_field not in export_fields:
                 export_fields.append(lookup_field)

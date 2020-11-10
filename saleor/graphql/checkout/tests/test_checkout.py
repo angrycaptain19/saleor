@@ -471,7 +471,7 @@ def test_checkout_create_logged_in_customer_custom_email(user_api_client, stock)
         }
     }
     assert not Checkout.objects.exists()
-    assert not custom_email == customer.email
+    assert custom_email != customer.email
     response = user_api_client.post_graphql(MUTATION_CHECKOUT_CREATE, variables)
     content = get_graphql_content(response)
     new_checkout = Checkout.objects.first()
@@ -511,7 +511,7 @@ def test_checkout_create_logged_in_customer_custom_addresses(
     assert not (
         customer.default_shipping_address_id == new_checkout.shipping_address_id
     )
-    assert not (customer.default_billing_address_id == new_checkout.billing_address_id)
+    assert customer.default_billing_address_id != new_checkout.billing_address_id
     assert new_checkout.shipping_address.first_name == shipping_address["firstName"]
     assert new_checkout.billing_address.first_name == billing_address["firstName"]
 

@@ -34,7 +34,7 @@ from ..utils import validate_draft_order
 
 @pytest.fixture
 def orders_query_with_filter():
-    query = """
+    return """
       query ($filter: OrderFilterInput!, ) {
         orders(first: 5, filter:$filter) {
           totalCount
@@ -46,12 +46,11 @@ def orders_query_with_filter():
         }
       }
     """
-    return query
 
 
 @pytest.fixture
 def draft_orders_query_with_filter():
-    query = """
+    return """
       query ($filter: OrderDraftFilterInput!, ) {
         draftOrders(first: 5, filter:$filter) {
           totalCount
@@ -63,7 +62,6 @@ def draft_orders_query_with_filter():
         }
       }
     """
-    return query
 
 
 @pytest.fixture
@@ -1763,9 +1761,9 @@ def test_order_update(
     order.user = None
     order.save()
     email = "not_default@example.com"
-    assert not order.user_email == email
-    assert not order.shipping_address.first_name == graphql_address_data["firstName"]
-    assert not order.billing_address.last_name == graphql_address_data["lastName"]
+    assert order.user_email != email
+    assert order.shipping_address.first_name != graphql_address_data["firstName"]
+    assert order.billing_address.last_name != graphql_address_data["lastName"]
     order_id = graphene.Node.to_global_id("Order", order.id)
     variables = {"id": order_id, "email": email, "address": graphql_address_data}
     response = staff_api_client.post_graphql(
