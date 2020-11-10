@@ -29,7 +29,6 @@ def test_export_products_task(export_products_mock, user_export_file):
 def test_on_task_failure(send_export_failed_info_mock, user_export_file):
     # given
     exc = Exception("Test")
-    task_id = "task_id"
     args = [user_export_file.pk, {"all": ""}]
     kwargs = {}
     info_type = "Test error"
@@ -40,6 +39,7 @@ def test_on_task_failure(send_export_failed_info_mock, user_export_file):
     previous_updated_at = user_export_file.updated_at
 
     with freeze_time(datetime.datetime.now()) as frozen_datetime:
+        task_id = "task_id"
         # when
         on_task_failure(None, exc, task_id, args, kwargs, info)
 
@@ -68,7 +68,6 @@ def test_on_task_failure(send_export_failed_info_mock, user_export_file):
 def test_on_task_failure_for_app(send_export_failed_info_mock, app_export_file):
     # given
     exc = Exception("Test")
-    task_id = "task_id"
     args = [app_export_file.pk, {"all": ""}]
     kwargs = {}
     info_type = "Test error"
@@ -79,6 +78,7 @@ def test_on_task_failure_for_app(send_export_failed_info_mock, app_export_file):
     previous_updated_at = app_export_file.updated_at
 
     with freeze_time(datetime.datetime.now()) as frozen_datetime:
+        task_id = "task_id"
         # when
         on_task_failure(None, exc, task_id, args, kwargs, info)
 
@@ -104,8 +104,6 @@ def test_on_task_failure_for_app(send_export_failed_info_mock, app_export_file):
 
 
 def test_on_task_success(user_export_file):
-    # given
-    task_id = "task_id"
     args = [user_export_file.pk, {"filter": {}}]
     kwargs = {}
 
@@ -114,6 +112,8 @@ def test_on_task_success(user_export_file):
     previous_updated_at = user_export_file.updated_at
 
     with freeze_time(datetime.datetime.now()) as frozen_datetime:
+        # given
+        task_id = "task_id"
         # when
         on_task_success(None, None, task_id, args, kwargs)
 

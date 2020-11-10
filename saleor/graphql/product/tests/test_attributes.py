@@ -423,7 +423,7 @@ def test_attributes_in_collection_query(
     }
     """
 
-    query = query % {"filter_input": "filter: { %s: $nodeID }" % tested_field}
+    query %= {"filter_input": "filter: { %s: $nodeID }" % tested_field}
 
     variables = {"nodeID": filtered_by_node_id}
     content = get_graphql_content(user_api_client.post_graphql(query, variables))

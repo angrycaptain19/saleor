@@ -43,7 +43,7 @@ def create_permissions_mapping(User):
 
     for user in users:
         permissions = user.user_permissions.all().order_by("pk")
-        perm_pks = tuple([perm.pk for perm in permissions])
+        perm_pks = tuple(perm.pk for perm in permissions)
         mapping[perm_pks].add(user.pk)
         user.user_permissions.clear()
     return mapping

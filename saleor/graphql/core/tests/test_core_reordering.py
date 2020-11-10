@@ -216,11 +216,11 @@ def test_reordering_nothing(sorted_entries_seq, assert_num_queries):
     Ensures giving operations that does nothing, are skipped. Thus only one query should
     have been made: fetching the nodes.
     """
-    qs = SortedModel.objects
     pk = sorted_entries_seq[0].pk
-    operations = {pk: 0}
-
     with assert_num_queries(1) as ctx:
+        qs = SortedModel.objects
+        operations = {pk: 0}
+
         perform_reordering(qs, operations)
 
     assert ctx[0]["sql"].startswith("SELECT "), "Should only have done a SELECT"
@@ -229,9 +229,9 @@ def test_reordering_nothing(sorted_entries_seq, assert_num_queries):
 def test_giving_no_operation_does_no_query(sorted_entries_seq, assert_num_queries):
     """Ensures giving no operations runs no queries at all."""
 
-    qs = SortedModel.objects
-
     with assert_num_queries(0):
+        qs = SortedModel.objects
+
         perform_reordering(qs, {})
 
 

@@ -67,9 +67,9 @@ def test_creates_app_from_manifest_sends_token(monkeypatch):
 
 @pytest.mark.vcr
 def test_creates_app_from_manifest_installation_failed():
-    manifest_url = "http://localhost:3000/manifest-wrong"
-
     with pytest.raises(Exception):
+        manifest_url = "http://localhost:3000/manifest-wrong"
+
         call_command("install_app", manifest_url)
 
     app_job = AppInstallation.objects.get()

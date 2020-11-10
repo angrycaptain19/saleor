@@ -8,7 +8,7 @@ from ...tests.utils import get_graphql_content
 
 @pytest.fixture()
 def customers_for_search(db, address):
-    accounts = User.objects.bulk_create(
+    return User.objects.bulk_create(
         [
             User(
                 first_name="Jack1",
@@ -50,12 +50,11 @@ def customers_for_search(db, address):
             ),
         ]
     )
-    return accounts
 
 
 @pytest.fixture()
 def staff_for_search(db, address):
-    accounts = User.objects.bulk_create(
+    return User.objects.bulk_create(
         [
             User(
                 first_name="Jack1",
@@ -121,7 +120,6 @@ def staff_for_search(db, address):
             ),
         ]
     )
-    return accounts
 
 
 QUERY_CUSTOMERS_WITH_PAGINATION = """

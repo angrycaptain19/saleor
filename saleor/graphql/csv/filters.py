@@ -11,16 +11,14 @@ def filter_user(qs, _, value):
         "user__last_name",
         "user__email",
     ]
-    qs = filter_by_query_param(qs, value, user_fields)
-    return qs
+    return filter_by_query_param(qs, value, user_fields)
 
 
 def filter_app(qs, _, value):
     app_fields = [
         "app__name",
     ]
-    qs = filter_by_query_param(qs, value, app_fields)
-    return qs
+    return filter_by_query_param(qs, value, app_fields)
 
 
 class ExportFileFilter(BaseJobFilter):

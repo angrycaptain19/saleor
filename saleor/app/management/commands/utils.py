@@ -13,7 +13,6 @@ def clean_permissions(required_permissions: List[str]):
                 f"Permisssion: {perm} doesn't exist in Saleor."
                 f" Avaiable permissions: {all_permissions}"
             )
-    permissions = get_permissions(
+    return get_permissions(
         [all_permissions[perm] for perm in required_permissions]
     )
-    return permissions

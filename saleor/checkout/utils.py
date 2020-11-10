@@ -496,7 +496,7 @@ def is_fully_paid(
     Note that these payments may not be captured or charged at all.
     """
     payments = [payment for payment in checkout.payments.all() if payment.is_active]
-    total_paid = sum([p.total for p in payments])
+    total_paid = sum(p.total for p in payments)
     checkout_total = (
         calculations.checkout_total(checkout=checkout, lines=lines, discounts=discounts)
         - checkout.get_total_gift_cards_balance()

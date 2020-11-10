@@ -6,7 +6,7 @@ from ....tests.utils import get_graphql_content
 
 @pytest.fixture()
 def apps_for_pagination():
-    apps = App.objects.bulk_create(
+    return App.objects.bulk_create(
         [
             App(name="Account1", is_active=True),
             App(name="AccountAccount1", is_active=True),
@@ -15,7 +15,6 @@ def apps_for_pagination():
             App(name="Account3", is_active=True),
         ]
     )
-    return apps
 
 
 QUERY_APP_PAGINATION = """

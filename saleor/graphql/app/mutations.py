@@ -467,11 +467,11 @@ class AppFetchManifest(BaseMutation):
 
     @classmethod
     def clean_permissions(cls, required_permissions: List[str]):
-        missing_permissions = []
         all_permissions = {perm[0]: perm[1] for perm in get_permissions_enum_list()}
-        for perm in required_permissions:
-            if not all_permissions.get(perm):
-                missing_permissions.append(perm)
+        missing_permissions = [
+            perm for perm in required_permissions if not all_permissions.get(perm)
+        ]
+
         if missing_permissions:
             error_msg = "Given permissions don't exist"
             code = AppErrorCode.INVALID_PERMISSION.value

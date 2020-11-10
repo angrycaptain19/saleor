@@ -752,10 +752,9 @@ class ProductCreate(ModelMutation):
         cls, attributes: dict, product_type: models.ProductType
     ) -> T_INPUT_MAP:
         attributes_qs = product_type.product_attributes
-        attributes = AttributeAssignmentMixin.clean_input(
+        return AttributeAssignmentMixin.clean_input(
             attributes, attributes_qs, is_variant=False
         )
-        return attributes
 
     @classmethod
     def clean_input(cls, info, instance, data):
@@ -1086,10 +1085,9 @@ class ProductVariantCreate(ModelMutation):
         cls, attributes: dict, product_type: models.ProductType
     ) -> T_INPUT_MAP:
         attributes_qs = product_type.variant_attributes
-        attributes = AttributeAssignmentMixin.clean_input(
+        return AttributeAssignmentMixin.clean_input(
             attributes, attributes_qs, is_variant=True
         )
-        return attributes
 
     @classmethod
     def validate_duplicated_attribute_values(
@@ -1183,7 +1181,7 @@ class ProductVariantCreate(ModelMutation):
                     cleaned_input["attributes"] = cls.clean_attributes(
                         attributes, product_type
                     )
-                elif not instance.pk and not attributes:
+                elif not instance.pk:
                     # if attributes were not provided on creation
                     raise ValidationError(
                         "All attributes must take a value.",
@@ -1892,7 +1890,7 @@ class ProductSetAvailabilityForPurchase(BaseMutation):
 
         if not is_available:
             product.available_for_purchase = None
-        elif is_available and not start_date:
+        elif not start_date:
             product.available_for_purchase = datetime.date.today()
         else:
             product.available_for_purchase = start_date

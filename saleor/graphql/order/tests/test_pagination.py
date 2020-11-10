@@ -13,7 +13,7 @@ from ...tests.utils import get_graphql_content
 
 @pytest.fixture()
 def orders_for_pagination(db):
-    orders = Order.objects.bulk_create(
+    return Order.objects.bulk_create(
         [
             Order(
                 token=str(uuid.uuid4()),
@@ -29,12 +29,11 @@ def orders_for_pagination(db):
             ),
         ]
     )
-    return orders
 
 
 @pytest.fixture()
 def draft_orders_for_pagination(db):
-    orders = Order.objects.bulk_create(
+    return Order.objects.bulk_create(
         [
             Order(
                 token=str(uuid.uuid4()),
@@ -53,7 +52,6 @@ def draft_orders_for_pagination(db):
             ),
         ]
     )
-    return orders
 
 
 QUERY_ORDERS_WITH_PAGINATION = """

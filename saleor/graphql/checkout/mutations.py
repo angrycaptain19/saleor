@@ -240,9 +240,12 @@ class CheckoutCreate(ModelMutation, I18nMixin):
 
         # set country to one from shipping address
         shipping_address = cleaned_input.get("shipping_address")
-        if shipping_address and shipping_address.country:
-            if shipping_address.country != country:
-                country = shipping_address.country
+        if (
+            shipping_address
+            and shipping_address.country
+            and shipping_address.country != country
+        ):
+            country = shipping_address.country
         cleaned_input["country"] = country
 
         # Resolve and process the lines, retrieving the variants and quantities
@@ -585,9 +588,12 @@ class CheckoutShippingAddressUpdate(BaseMutation, I18nMixin):
 
         country = info.context.country.code
         # set country to one from shipping address
-        if shipping_address and shipping_address.country:
-            if shipping_address.country != country:
-                country = shipping_address.country
+        if (
+            shipping_address
+            and shipping_address.country
+            and shipping_address.country != country
+        ):
+            country = shipping_address.country
         checkout.set_country(country, commit=True)
 
         # Resolve and process the lines, validating variants quantities

@@ -56,8 +56,7 @@ def filter_customer(qs, _, value):
         "user__last_name",
         "user__email",
     ]
-    qs = filter_by_query_param(qs, value, customer_fields)
-    return qs
+    return filter_by_query_param(qs, value, customer_fields)
 
 
 def filter_created_range(qs, _, value):

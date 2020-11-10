@@ -88,17 +88,12 @@ def test_graphql_view_access_control_header(client, settings):
     )
 
     response = client.options(API_PATH)
-    assert all(
-        [
-            field not in response
-            for field in (
-                ACCESS_CONTROL_ALLOW_ORIGIN,
-                ACCESS_CONTROL_ALLOW_CREDENTIALS,
-                ACCESS_CONTROL_ALLOW_HEADERS,
-                ACCESS_CONTROL_ALLOW_METHODS,
-            )
-        ]
-    )
+    assert all(field not in response for field in (
+                    ACCESS_CONTROL_ALLOW_ORIGIN,
+                    ACCESS_CONTROL_ALLOW_CREDENTIALS,
+                    ACCESS_CONTROL_ALLOW_HEADERS,
+                    ACCESS_CONTROL_ALLOW_METHODS,
+                ))
 
 
 @pytest.mark.parametrize(
